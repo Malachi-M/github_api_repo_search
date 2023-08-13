@@ -2,6 +2,7 @@ import { RepositoryHeader } from '@/components/RepositoryHeader'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
 import "./globals.css"
+import { RepoServerAPIProvider } from '@/contexts/RepoServerAPIContext'
 
 const openSans = Open_Sans({ subsets: ['latin'] })
 
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={openSans.className}>
-        <main className="flex min-h-screen flex-col items-center px-8">
+        <main className="flex min-h-screen flex-col items-center px-16">
           <RepositoryHeader />
-          {children}
+          <RepoServerAPIProvider>
+            {children}
+          </RepoServerAPIProvider>
         </main>
       </body>
     </html>

@@ -4,21 +4,28 @@ import { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import { RepositoryFavoriteItem } from "./RepositoryFavoriteItem"
 import { RepositoryFavoritesControlsBar } from "./RespositoryFavoritesControlsBar"
 import { Repository } from '@/types';
+import { useRepoServerAPI } from '@/contexts/RepoServerAPIContext';
 
-interface RepositoryFavoritesProps {
-  repos: Repository[]
-  setSelectedRepo: Dispatch<SetStateAction<Repository>>
-}
 
-export function RepositoryFavorites({ repos, setSelectedRepo }: RepositoryFavoritesProps) {
+export function RepositoryFavorites() {
+  const { favoriteRepos, getRepos, favoriteReposLoading } = useRepoServerAPI()
   const [sortedRepos, setSortedReports] = useState<Repository[]>([])
-  const numOfRepos = repos.length
+  const numOfRepos = favoriteRepos.length
 
   useEffect(() => {
-    setSortedReports([...repos])
-  }, [repos])
+    getRepos()
+  }, [getRepos])
 
-  async function handleStarSort(order: number) {
+
+  useEffect(() => {
+    try {
+      setSortedReports([...favoriteRepos])
+    } catch (error) { 
+      console.error(error)
+    }
+  }, [favoriteRepos])
+
+  async function handleStarSort(order: number, property: string) {
     if (order) {
       setSortedReports([...sortedRepos].sort((a, b) => a.stargazersCount - b.stargazersCount));
     } else {
@@ -43,16 +50,25 @@ export function RepositoryFavorites({ repos, setSelectedRepo }: RepositoryFavori
         </div>
         <RepositoryFavoritesControlsBar handleStarSort={handleStarSort} handleCreatedSort={handleCreatedSort} />
       </header>
-      <div className="">
-        <div></div>
-        <ul className="mt-12 grid grid-cols-4 gap-4 overflow-auto max-h-96">
-          {sortedRepos.map(repo => {
-            return (
-              <RepositoryFavoriteItem key={repo.id} repo={repo} setSelectedRepo={setSelectedRepo} />
-            )
-          })}
-        </ul>
-      </div>
+      {numOfRepos ? (
+        <ul className="mt-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 overflow-auto max-h-96">
+        {sortedRepos.map(repo => {
+          return (
+            <RepositoryFavoriteItem key={repo.id} repo={repo} />
+          )
+        })}
+      </ul>
+      ) : (
+        <div className="flex items-center flex-col bg-gradient-to-r from-white to-slate-100 w-full h-64 mt-8 rounded-lg justify-center ">
+          {!favoriteReposLoading && (
+            <>
+              <p className="text-xl font-semibold">You currently have no Glimpses saved!</p>
+              <p className="text-lg font-normal mt-6">Add Glimpses of your favorite repositories for quick access to your favorite code bases.</p>
+            </>
+          )}
+          {favoriteReposLoading && <p className="text-xl font-semibold">Loading saved Glimpses...</p>}
+        </div>
+      )}
     </section>
   )
 }

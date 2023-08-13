@@ -1,21 +1,20 @@
 "use client"
 
-import { Dispatch, SetStateAction } from "react"
 import { Repository } from "@/types"
-import { RepoServerAPIService } from "@/services/RepoServerAPIService"
 import { TrashIcon } from "@heroicons/react/24/outline"
 import Link from "next/link"
+import { useRepoServerAPI } from "@/contexts/RepoServerAPIContext"
 
 interface RepositoryFavoriteItemProps {
   repo: Repository
-  setSelectedRepo: Dispatch<SetStateAction<Repository>>
 }
 
-export function RepositoryFavoriteItem ({repo, setSelectedRepo}: RepositoryFavoriteItemProps) {
+export function RepositoryFavoriteItem ({repo}: RepositoryFavoriteItemProps) {
+  const { deleteRepo } = useRepoServerAPI()
+
   async function handleClick () {
     try {
-      await RepoServerAPIService.deleteRepo(repo.id)
-      setSelectedRepo(repo)
+      deleteRepo(repo.id)
     } catch(e) {
       console.error(e)
     }

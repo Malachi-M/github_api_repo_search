@@ -130,3 +130,11 @@ export interface GithubRepoItem {
   default_branch: string;
   score: number;
 }
+export interface RepoServerAPIContextType {
+  favoriteRepos: Repository[],
+  favoriteReposLoading: boolean,
+  favoriteReposError: Error | unknown,
+  getRepos: () => void,
+  createRepo: (repo: Repository) => void,
+  deleteRepo: (id: string) => void,
+}
