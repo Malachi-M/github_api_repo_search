@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GitHub Repo Search
 
-## Getting Started
+Glimpse is a simple web application that allows users to search for GitHub repositories using keywords and save them to a favorite repos list. The application uses the GitHub API to fetch the search results and display them to the user. Additionally, a lightweight external API server manages the favorites list.
 
-First, run the development server:
+### Technologies Used
+- Nextjs 13+
+- Typescript
+- [TailwindCSS](https://tailwindcss.com/docs/installation)
+- [HeadlessUI](https://headlessui.com/react/combobox)
+- Jest
+## Installation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+To install and run the application locally, follow these steps:
+
+1. Clone the repository to your local machine.
+2. Install the required dependencies by running `npm install`.
+3. Start the application by running `npm start`.
+4. Open your web browser and navigate to `http://localhost:3000`.
+
+Note:
+To use the search functionality you will need to provide a Github Access Token with the public repository scope.
+
+[Endpoints Available for fine-grain access tokens](https://docs.github.com/en/rest/overview/endpoints-available-for-fine-grained-personal-access-tokens?apiVersion=2022-11-28)
+
+```
+GET /search/code
+GET /search/commits
+GET /search/issues
+GET /search/labels
+GET /search/repositories
+GET /search/topics
+GET /search/users
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The Github access token is referenced from an `.env` file with the name: `GITHUB_ACCESS_TOKEN`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To use the application, enter a search term into the input field. The application will fetch the search results from the GitHub API and display them within the autocomplete. Select a result to add it to your list of favorite Github repositories.
 
-## Learn More
+Note:
+The max amount of favorite Github repositories is 10. To search for additional repositiories lower the current favorite repository number to a number lower than 10.
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This project is licensed under the MIT License. See the LICENSE file for details.
