@@ -17,6 +17,15 @@ To install and run the application locally, follow these steps:
 3. Start the application by running `npm start`.
 4. Open your web browser and navigate to `http://localhost:3000`.
 
+OR via Docker
+```bash
+$ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build
+$ docker-compose up
+```
+
+
+
+
 Note:
 To use the search functionality you will need to provide a Github Access Token with the public repository scope.
 
